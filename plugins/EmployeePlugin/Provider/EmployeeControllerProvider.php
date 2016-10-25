@@ -30,6 +30,14 @@ class EmployeeControllerProvider implements ControllerProviderInterface
         $employees->get("/{id}",'\plugins\EmployeePlugin\Controllers\EmployeeController::getEmployeeById')
             ->assert('id','\d+');
 
+        $employees->post("/",'\plugins\EmployeePlugin\Controllers\EmployeeController::setEmployee');
+
+        $employees->delete("/{id}",'\plugins\EmployeePlugin\Controllers\EmployeeController::removeEmployee')
+            ->assert('id','\d+');
+
+        $employees->put("/{id}",'\plugins\EmployeePlugin\Controllers\EmployeeController::updateEmployee')
+            ->assert('id','\d+');
+
         return $employees;
     }
 }
