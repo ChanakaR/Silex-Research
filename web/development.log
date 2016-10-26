@@ -1,4 +1,0 @@
-[2016-10-25 13:59:47] app.INFO: Matched route "POST_employees_". {"route_parameters":{"_controller":"\\plugins\\EmployeePlugin\\Controllers\\EmployeeController::setEmployee","_route":"POST_employees_"},"request_uri":"http://localhost/silex/web/employees/"} []
-[2016-10-25 13:59:47] app.DEBUG: > POST /silex/web/employees/ [] []
-[2016-10-25 13:59:47] app.INFO: New Employee is created [] []
-[2016-10-25 13:59:47] app.DEBUG: < 200 [] []

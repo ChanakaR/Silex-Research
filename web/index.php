@@ -20,7 +20,7 @@ $app->register(new Silex\Provider\MonologServiceProvider(), array(
     'monolog.logfile' => __DIR__.'/development.log',
 ));
 
-require_once __DIR__.'/../plugins/routes.php';
+\plugins\RouteMounter::mount($app);
 
 $app->run();
 
