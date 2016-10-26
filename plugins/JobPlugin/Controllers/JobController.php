@@ -8,21 +8,24 @@
  */
 namespace plugins\JobPlugin\Controllers;
 
+use plugins\JobPlugin\Models\Job;
 use Silex\Application;
 
 class JobController
 {
-    public function getJobs(Application $app){
-        $query = "select * from job";
-        $employees = $app['db']->fetchAll($query);
+    private $job;
+    public function __construct()
+    {
+        $this->job = new Job();
+    }
 
-        return $app->json($employees);
+    public function getJobs(Application $app){
+        $jobs = $this->job->getAll($app);
+        return $app->json($jobs);
     }
 
     public function getJobById($id,Application $app){
-        $query = "select * from job where id = $id";
-        $employee = $app['db']->fetchAll($query);
-
-        return $app->json($employee);
+        $job = $this->job->getJobById($app,$id);
+        return $app->json($job);
     }
 }

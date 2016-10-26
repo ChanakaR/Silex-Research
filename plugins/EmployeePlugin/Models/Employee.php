@@ -35,7 +35,6 @@ class Employee
     }
 
     public function updateEmployee(Application $app,$id,$parameters){
-
         $app['db']->update('employee',$parameters,array('id'=>$id));
     }
 }
