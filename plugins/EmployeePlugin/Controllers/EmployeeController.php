@@ -10,21 +10,24 @@ namespace plugins\EmployeePlugin\Controllers;
 
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
+use plugins\EmployeePlugin\Models\Employee;
 
 class EmployeeController
 {
-    public function getEmployees(Application $app){
-        $sql = "select a.*,b.title,b.salary from employee a inner join job b on a.job_id = b.id";
-        $employees = $app['db']->fetchAll($sql);
+    private $employee;
+    public function __construct()
+    {
+        $this->employee = new Employee();
+    }
 
+    public function getEmployees(Application $app){
+        $employees = $this->employee->getAll($app);
         return $app->json($employees);
     }
 
     public function getEmployeeById($id,Application $app){
-        $sql = "select a.*,b.title,b.salary from employee a inner join job b on a.job_id = b.id where a.id = ?";
-        $employee = $app['db']->fetchAssoc($sql,array((int)$id));
-
-        return $app->json($employee);
+        $employee_result = $this->employee->getEmployeeById($app,$id);
+        return $app->json($employee_result);
     }
 
     public function setEmployee(Request $request,Application $app){
@@ -44,7 +47,7 @@ class EmployeeController
             'job_id'=>(int)$job_id
         );
 
-        $app['db']->insert('employee',$params);
+        $this->employee->addEmployee($app,$params);
 
         $app['monolog']->addInfo(sprintf("New Employee is created"));
         $message = "New Epmloyee is inserted successfully";
@@ -54,9 +57,7 @@ class EmployeeController
 
     public function removeEmployee($id,Request $request,Application $app){
 
-//        $id = $request->get('id');
-
-        $app['db']->delete('employee', array('id' => $id));
+        $this->employee->deleteEmployee($app,$id);
         $message = "Employee id $id deleted successfully";
         return $app->json($message);
     }
@@ -78,7 +79,7 @@ class EmployeeController
             'job_id'=>(int)$job_id
         );
 
-        $app['db']->update('employee',$params,array('id'=>$id));
+        $this->employee->updateEmployee($app,$id,$params);
 
         $message = "Epmloyee $id is updated successfully";
 
