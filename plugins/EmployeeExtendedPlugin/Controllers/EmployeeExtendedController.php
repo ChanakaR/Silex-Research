@@ -2,37 +2,21 @@
 
 /**
  * Created by PhpStorm.
- * User: bmCSoft
- * Date: 2016-10-24
- * Time: 6:42 PM
+ * User: chanaka
+ * Date: 10/27/16
+ * Time: 9:10 PM
  */
-namespace plugins\EmployeePlugin\Controllers;
 
-use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
-use plugins\EmployeePlugin\Models\Employee;
+namespace plugins\EmployeeExtendedPlugin\Controllers;
+
 use app\events\EmployeeEvent;
+use plugins\EmployeePlugin\Controllers\EmployeeController;
+use Symfony\Component\HttpFoundation\Request;
+use Silex\Application;
 
-class EmployeeController
+
+class EmployeeExtendedController extends EmployeeController
 {
-    protected $employee;
-
-    public function __construct()
-    {
-        $this->employee = new Employee();
-    }
-
-    public function getEmployees(Application $app){
-        $employees = $this->employee->getAll($app);
-        $employees['time'] = 'time_stamp';
-        return $app->json($employees);
-    }
-
-    public function getEmployeeById($id,Application $app){
-        $employee_result = $this->employee->getEmployeeById($app,$id);
-        return $app->json($employee_result);
-    }
-
     public function setEmployee(Request $request,Application $app){
         $emp_id = $request->get('employee_id');
         $first_name = $request->get('first_name');
@@ -40,6 +24,7 @@ class EmployeeController
         $contact_no = $request->get('contact_no');
         $address = $request->get('address');
         $job_id = $request->get('job_id');
+        $b_day = $request->get('dob');              //  newly added field
 
         $params = array(
             'employee_id'=>$emp_id,
@@ -47,7 +32,8 @@ class EmployeeController
             'last_name'=>$last_name,
             'contact_no'=>$contact_no,
             'address'=>$address,
-            'job_id'=>(int)$job_id
+            'job_id'=>(int)$job_id,
+            'date_of_birth' => $b_day
         );
 
         $this->employee->addEmployee($app,$params);
@@ -61,12 +47,6 @@ class EmployeeController
         return $app->json($message);
     }
 
-    public function removeEmployee($id,Application $app){
-        $this->employee->deleteEmployee($app,$id);
-        $message = "Employee id $id deleted successfully";
-        return $app->json($message);
-    }
-
     public function updateEmployee($id,Request $request,Application $app){
         $emp_id = $request->get('employee_id');
         $first_name = $request->get('first_name');
@@ -74,6 +54,7 @@ class EmployeeController
         $contact_no = $request->get('contact_no');
         $address = $request->get('address');
         $job_id = $request->get('job_id');
+        $b_day = $request->get('dob');              //  newly added field
 
         $params = array(
             'employee_id'=>$emp_id,
@@ -81,19 +62,14 @@ class EmployeeController
             'last_name'=>$last_name,
             'contact_no'=>$contact_no,
             'address'=>$address,
-            'job_id'=>(int)$job_id
+            'job_id'=>(int)$job_id,
+            'date_of_birth' => $b_day
         );
-
 
         $this->employee->updateEmployee($app,$id,$params);
 
         $message = "Epmloyee $id is updated successfully";
 
         return $app->json($message);
-    }
-
-    public function getEmployeeCount(Application $app){
-        $count =  $this->employee->getCount($app);
-        return $app->json($count);
     }
 }
