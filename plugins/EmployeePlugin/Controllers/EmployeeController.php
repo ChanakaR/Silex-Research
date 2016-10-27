@@ -11,10 +11,12 @@ namespace plugins\EmployeePlugin\Controllers;
 use Silex\Application;
 use Symfony\Component\HttpFoundation\Request;
 use plugins\EmployeePlugin\Models\Employee;
+use app\events\EmployeeEvent;
 
 class EmployeeController
 {
     private $employee;
+
     public function __construct()
     {
         $this->employee = new Employee();
@@ -48,15 +50,17 @@ class EmployeeController
         );
 
         $this->employee->addEmployee($app,$params);
-
-        $app['monolog']->addInfo(sprintf("New Employee is created"));
         $message = "New Epmloyee is inserted successfully";
+
+        $employee_event = new EmployeeEvent();
+        $employee_event->setInsertInformation($params);
+
+        $app['dispatcher']->dispatch(EmployeeEvent::NAME,$employee_event);
 
         return $app->json($message);
     }
 
     public function removeEmployee($id,Application $app){
-
         $this->employee->deleteEmployee($app,$id);
         $message = "Employee id $id deleted successfully";
         return $app->json($message);
@@ -78,6 +82,7 @@ class EmployeeController
             'address'=>$address,
             'job_id'=>(int)$job_id
         );
+
 
         $this->employee->updateEmployee($app,$id,$params);
 

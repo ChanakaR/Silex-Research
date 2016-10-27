@@ -28,7 +28,9 @@ class Employee
     }
 
     public function addEmployee(Application $app,$parameters){
-        $app['db']->insert('employee',$parameters);
+        $result = $app['db']->insert('employee',$parameters);
+        return $result;
+
     }
 
     public function deleteEmployee(Application $app,$id){
