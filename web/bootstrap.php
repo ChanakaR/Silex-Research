@@ -10,7 +10,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 
 use Knp\Provider\ConsoleServiceProvider;
 use Symfony\Component\EventDispatcher\Event;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\HttpFoundation\Request;
 
 $app = new Silex\Application();
 
@@ -40,5 +40,15 @@ $app->register(new ConsoleServiceProvider(),array(
 $app->on('Employee.Inserted',function (Event $event) use ($app){
     $app['monolog']->addInfo(sprintf($event->getEmployeeInsertedNotification()));
 });
+
+
+/*
+ *  Application middleware
+ */
+
+$app->before(function (Request $request){
+    // Do something
+});
+
 
 return $app;
