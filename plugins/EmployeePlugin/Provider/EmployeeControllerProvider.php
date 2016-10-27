@@ -26,6 +26,7 @@ class EmployeeControllerProvider implements ControllerProviderInterface
         $employees = $app["controllers_factory"];
 
         $employees->get("/",'\plugins\EmployeePlugin\Controllers\EmployeeController::getEmployees');
+        $employees->get("/count",'\plugins\EmployeePlugin\Controllers\EmployeeController::getEmployeeCount');
 
         $employees->get("/{id}",'\plugins\EmployeePlugin\Controllers\EmployeeController::getEmployeeById')
             ->assert('id','\d+');

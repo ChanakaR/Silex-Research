@@ -14,6 +14,7 @@ use Silex\Application;
 class Employee
 {
 
+
     public function getAll(Application $app){
         $sql = "select a.*,b.title,b.salary from employee a inner join job b on a.job_id = b.id";
         $results = $app['db']->fetchAll($sql);
@@ -36,5 +37,12 @@ class Employee
 
     public function updateEmployee(Application $app,$id,$parameters){
         $app['db']->update('employee',$parameters,array('id'=>$id));
+    }
+
+    public function getCount(Application $app){
+        $sth = $app['db']->query("select count(id) as employee_count from employee");
+        $result = $sth->fetch();
+        return $result;
+
     }
 }

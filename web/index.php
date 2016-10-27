@@ -1,28 +1,28 @@
 <?php
 
-// web/index.php
-require_once __DIR__.'/../vendor/autoload.php';
 
-$app = new Silex\Application();
-
-$app->register(new Silex\Provider\DoctrineServiceProvider(),array(
-    'db.options' => array(
-        'driver' => 'pdo_mysql',
-        'host' => '127.0.0.1',
-        'dbname' => 'research_demo',
-        'user' => 'root',
-        'password' => '1234',
-        'charset' => 'utf8',
-    )
-));
-
-$app->register(new Silex\Provider\MonologServiceProvider(), array(
-    'monolog.logfile' => __DIR__.'/development.log',
-));
-
-\plugins\RouteMounter::mount($app);
+require_once __DIR__.'/bootstrap.php';
 
 $app->run();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

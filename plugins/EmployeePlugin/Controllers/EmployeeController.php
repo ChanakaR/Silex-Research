@@ -55,7 +55,7 @@ class EmployeeController
         return $app->json($message);
     }
 
-    public function removeEmployee($id,Request $request,Application $app){
+    public function removeEmployee($id,Application $app){
 
         $this->employee->deleteEmployee($app,$id);
         $message = "Employee id $id deleted successfully";
@@ -86,4 +86,8 @@ class EmployeeController
         return $app->json($message);
     }
 
+    public function getEmployeeCount(Application $app){
+        $count =  $this->employee->getCount($app);
+        return $app->json($count);
+    }
 }
