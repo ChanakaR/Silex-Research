@@ -11,6 +11,7 @@ require_once __DIR__.'/../vendor/autoload.php';
 use Knp\Provider\ConsoleServiceProvider;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
+use plugins\RouteMounter;
 
 $app = new Silex\Application();
 
@@ -35,7 +36,8 @@ $app->register(new ConsoleServiceProvider(),array(
     'console.project_directory' => __DIR__.'/..'
 ));
 
-\plugins\RouteMounter::mount($app);
+$routeMounter = new RouteMounter();
+$routeMounter->mount($app);
 
 $app->on('Employee.Inserted',function (Event $event) use ($app){
     $app['monolog']->addInfo(sprintf($event->getEmployeeInsertedNotification()));
@@ -46,9 +48,30 @@ $app->on('Employee.Inserted',function (Event $event) use ($app){
  *  Application middleware
  */
 
-$app->before(function (Request $request){
-    // Do something
+$app->get('/testmiddleware',function(){
+    return "I am the response<br>";
+})
+->before(function (){
+    echo "I am the before routing middleware<br>";
+
+})
+->after(function (){
+    echo "I am the after routing middleware<br>";
 });
+
+
+
+//$app->before(function (){
+//    echo "I am the BEFORE APPLICATION MIDDLEWARE<br>";
+//});
+//
+//$app->after(function (){
+//    echo "I am the AFTER APPLICATION MIDDLEWARE<br>";
+//});
+//
+//$app->finish(function (){
+//    echo "I am the FINISH APPLICATION MIDDLEWARE<br>";
+//});
 
 
 return $app;
