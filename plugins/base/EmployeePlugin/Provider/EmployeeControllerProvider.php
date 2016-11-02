@@ -14,6 +14,7 @@ use Silex\Application;
 class EmployeeControllerProvider implements ControllerProviderInterface
 {
 
+    protected $employees;
     /**
      * Returns routes to connect to the given application.
      *
@@ -23,25 +24,31 @@ class EmployeeControllerProvider implements ControllerProviderInterface
      */
     public function connect(Application $app)
     {
-        $employees = $app["controllers_factory"];
+        $this->setRouteGroup($app);
+        $this->setRoutes();
+        return $this->employees;
+    }
 
-        $employees->get("/",'\plugins\base\EmployeePlugin\Controllers\EmployeeController::getEmployees')
-        ->after(function (){
-            echo "I am a after middleware for employee route";
-        });
-        $employees->get("/count",'\plugins\base\EmployeePlugin\Controllers\EmployeeController::getEmployeeCount');
+    protected function setRouteGroup($app){
+        $this->employees=$app["controllers_factory"];
+    }
 
-        $employees->get("/{id}",'\plugins\base\EmployeePlugin\Controllers\EmployeeController::getEmployeeById')
+    protected function setRoutes(){
+        $this->employees->get("/",'\plugins\base\EmployeePlugin\Controllers\EmployeeController::getEmployees')
+            ->after(function (){
+                echo "I am a after middleware for employee route";
+            });
+        $this->employees->get("/count",'\plugins\base\EmployeePlugin\Controllers\EmployeeController::getEmployeeCount');
+
+        $this->employees->get("/{id}",'\plugins\base\EmployeePlugin\Controllers\EmployeeController::getEmployeeById')
             ->assert('id','\d+');
 
-        $employees->post("/",'\plugins\base\EmployeePlugin\Controllers\EmployeeController::setEmployee');
+        $this->employees->post("/",'\plugins\base\EmployeePlugin\Controllers\EmployeeController::setEmployee');
 
-        $employees->delete("/{id}",'\plugins\base\EmployeePlugin\Controllers\EmployeeController::removeEmployee')
+        $this->employees->delete("/{id}",'\plugins\base\EmployeePlugin\Controllers\EmployeeController::removeEmployee')
             ->assert('id','\d+');
 
-        $employees->put("/{id}",'\plugins\base\EmployeePlugin\Controllers\EmployeeController::updateEmployee')
+        $this->employees->put("/{id}",'\plugins\base\EmployeePlugin\Controllers\EmployeeController::updateEmployee')
             ->assert('id','\d+');
-
-        return $employees;
     }
 }

@@ -67,9 +67,12 @@ class EmployeeExtendedController extends EmployeeController
         );
 
         $this->employee->updateEmployee($app,$id,$params);
-
         $message = "Epmloyee $id is updated successfully";
-
         return $app->json($message);
+    }
+
+    public function getEmployeeCount(Application $app)
+    {
+        return $app->json("I am the custom");
     }
 }

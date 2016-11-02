@@ -25,5 +25,4 @@ class EmployeeEvent extends Event
     public function setInsertInformation(Array $param_array){
         $this->param_array = $param_array;
     }
-
 }

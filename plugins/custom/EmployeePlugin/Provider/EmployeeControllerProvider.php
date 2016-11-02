@@ -11,7 +11,7 @@ namespace plugins\custom\EmployeePlugin\Provider;
 use Silex\Api\ControllerProviderInterface;
 use Silex\Application;
 
-class EmployeeControllerProvider implements ControllerProviderInterface
+class EmployeeControllerProvider extends \plugins\base\EmployeePlugin\Provider\EmployeeControllerProvider
 {
 
     /**
@@ -23,22 +23,17 @@ class EmployeeControllerProvider implements ControllerProviderInterface
      */
     public function connect(Application $app)
     {
-        $employees = $app["controllers_factory"];
+//        $employees = $app["controllers_factory"];
 
-        $employees->get("/",'\plugins\custom\EmployeePlugin\Controllers\EmployeeExtendedController::getEmployees');
-        $employees->get("/count",'\plugins\EmployeePlugin\Controllers\EmployeeExtendedController::getEmployeeCount');
+        $this->setRouteGroup($app);
 
-        $employees->get("/{id}",'\plugins\custom\EmployeePlugin\Controllers\EmployeeExtendedController::getEmployeeById')
+        $this->employees->get("/count",'\plugins\custom\EmployeePlugin\Controllers\EmployeeExtendedController::getEmployeeCount');
+        $this->employees->post("/",'\plugins\custom\EmployeePlugin\Controllers\EmployeeExtendedController::setEmployee');
+        $this->employees->put("/{id}",'\plugins\custom\EmployeePlugin\Controllers\EmployeeExtendedController::updateEmployee')
             ->assert('id','\d+');
 
-        $employees->post("/",'\plugins\custom\EmployeePlugin\Controllers\EmployeeExtendedController::setEmployee');
+        $this->setRoutes();
 
-        $employees->delete("/{id}",'\plugins\custom\EmployeePlugin\Controllers\EmployeeExtendedController::removeEmployee')
-            ->assert('id','\d+');
-
-        $employees->put("/{id}",'\plugins\custom\EmployeePlugin\Controllers\EmployeeExtendedController::updateEmployee')
-            ->assert('id','\d+');
-
-        return $employees;
+        return $this->employees;
     }
 }

@@ -1,0 +1,7 @@
+[2016-11-02 11:48:25] app.INFO: Matched route "GET_employee_count". {"route_parameters":{"_controller":"\\plugins\\EmployeePlugin\\Controllers\\EmployeeExtendedController::getEmployeeCount","_route":"GET_employee_count"},"request_uri":"http://localhost/silex/web/employee/count"} []
+[2016-11-02 11:48:25] app.DEBUG: > GET /silex/web/employee/count [] []
+[2016-11-02 11:48:25] app.CRITICAL: InvalidArgumentException: Class "\plugins\EmployeePlugin\Controllers\EmployeeExtendedController" does not exist. (uncaught exception) at /var/www/html/silex/vendor/symfony/http-kernel/Controller/ControllerResolver.php line 171 {"exception":"[object] (InvalidArgumentException(code: 0): Class \"\\plugins\\EmployeePlugin\\Controllers\\EmployeeExtendedController\" does not exist. at /var/www/html/silex/vendor/symfony/http-kernel/Controller/ControllerResolver.php:171)"} []
+[2016-11-02 11:48:25] app.DEBUG: < 500 [] []
+[2016-11-02 11:49:25] app.INFO: Matched route "GET_employee_count". {"route_parameters":{"_controller":"\\plugins\\custom\\EmployeePlugin\\Controllers\\EmployeeExtendedController::getEmployeeCount","_route":"GET_employee_count"},"request_uri":"http://localhost/silex/web/employee/count"} []
+[2016-11-02 11:49:25] app.DEBUG: > GET /silex/web/employee/count [] []
+[2016-11-02 11:49:25] app.DEBUG: < 200 [] []

@@ -13,7 +13,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 
-use plugins\EmployeePlugin\Models\Employee;
+use plugins\base\EmployeePlugin\Models\Employee;
 
 class EmployeeCommand extends Command
 {

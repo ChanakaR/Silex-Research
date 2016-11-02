@@ -93,7 +93,8 @@ class EmployeeController
     }
 
     public function getEmployeeCount(Application $app){
-        $count =  $this->employee->getCount($app);
+//        $count =  $this->employee->getCount($app);
+        $count =  "I am base controller";
         return $app->json($count);
     }
 }

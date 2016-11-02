@@ -44,6 +44,7 @@ $app->on('Employee.Inserted',function (Event $event) use ($app){
 });
 
 
+
 /*
  *  Application middleware
  */
